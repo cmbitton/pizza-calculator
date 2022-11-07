@@ -433,7 +433,7 @@ h2, h3{
 
 }
 h3{
-    background-color: rgb(148, 11, 11);
+    background-color: rgba(148, 11, 11, 0.815);
 }
 h4{
     letter-spacing: 2px;
@@ -536,6 +536,13 @@ label {
     box-shadow: 0px 0px 5px;
     transform: scale(1.05);
     cursor: pointer;
+}
+.result-container{
+    white-space: pre;
+    text-align: center;
+    line-height: 3rem;
+    font-size: 20px;
+    font-weight: 300;
 }
 
 @media screen {

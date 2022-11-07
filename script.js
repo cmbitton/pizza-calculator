@@ -33,7 +33,8 @@ function createPizzaDeal(event) {
         const size = document.createElement('input');
         size.setAttribute('type', 'number');
         size.setAttribute('placeholder', '14')
-        container.classList.contains('container-one') ? size.id = `deal-one-price-${i + 1}` : size.id = `deal-two-price-${i + 1}`
+        container.classList.contains('deal-one') ? size.id = `deal-one-price-${i + 1}` : size.id = `deal-two-price-${i + 1}`;
+        container.classList.contains('deal-one') ? size.classList.add('deal-one-price') : size.classList.add('deal-two-price');
         const label = document.createElement('label');
         label.setAttribute('for', `${size.id}`);
         label.textContent = `Pizza ${i + 1}: `;
@@ -50,7 +51,7 @@ function createPizzaDeal(event) {
     dealPrice.setAttribute('type', 'number');
     dealPrice.setAttribute('placeholder', '0.00');
     dealPrice.setAttribute('step', '0.01');
-    dealPrice.id = 'dealPrice'
+    container.classList.contains('deal-one') ? dealPrice.id = 'deal-one-price' : dealPrice.id = 'deal-two-price';
     const dealLabel = document.createElement('label');
     dealLabel.setAttribute('for', `${dealPrice.id}`);
     dealLabel.textContent = `Price`;
@@ -58,4 +59,52 @@ function createPizzaDeal(event) {
     priceContainer.append(dealPrice);
 }
 
+function calculateDeal(deal, price) {
+    const dealSizes = [...deal];
+    console.log(dealSizes)
+    const sumDeal = dealSizes.reduce((sum, current) => {
+       return sum += (Math.PI * ((current.value / 2) ** 2))
+    }, 0)
+    const dealPizzaPerInch = (sumDeal / price.value) 
+    return dealPizzaPerInch
+}
+
+function findBetterDeal(){
+    const container = document.querySelector('.container');
+    if(!document.querySelector('.result-container')){
+    const resultContainer = document.createElement('div');
+    resultContainer.classList.add('result-container');
+    container.append(resultContainer);
+    }
+    const resultContainer = document.querySelector('.result-container');
+    try {
+        const dealOne = calculateDeal(document.querySelectorAll('.deal-one-price'), document.querySelector('#deal-one-price'));
+        const dealTwo = calculateDeal(document.querySelectorAll('.deal-two-price'), document.querySelector('#deal-two-price'));
+        const info = document.createElement('div');
+        if(dealOne > dealTwo){
+            resultContainer.textContent = 'Deal 1 is Better!';
+            info.innerHTML = `Deal 1: <span class='dealOneRes'>${dealOne.toFixed(2)}</span> inch<sup>2</sup> of pizza per dollar
+Deal 2: <span class='dealTwoRes'>${dealTwo.toFixed(2)}</span> inch<sup>2</sup> of pizza per dollar`;
+            resultContainer.append(info);
+            document.querySelector('.dealTwoRes').style = 'color: red; font-weight: 400;';
+            document.querySelector('.dealOneRes').style = 'color: green; font-weight: 400;';
+        }
+        else{
+            resultContainer.textContent = 'Deal 2 is Better!';
+            info.innerHTML = `Deal 1: <span class='dealOneRes'>${dealOne.toFixed(2)}</span> inch<sup>2</sup> of pizza per dollar
+Deal 2: <span class='dealTwoRes'>${dealTwo.toFixed(2)}</span> inch<sup>2</sup> of pizza per dollar`;
+            resultContainer.append(info);
+            document.querySelector('.dealTwoRes').style = 'color: green; font-weight: 400;';
+            document.querySelector('.dealOneRes').style = 'color: red; font-weight: 400;';
+            
+        }
+
+    } catch (error) {
+        resultContainer.textContent = `ERROR
+Both Pizza Deals Must Be Filled Out Correctly`;
+    }
+}
 addSelectedClass();
+document.querySelector('.submit-button').addEventListener('click', () => {
+    findBetterDeal();
+})
