@@ -33,8 +33,8 @@ function createPizzaDeal(event) {
         const size = document.createElement('input');
         size.setAttribute('type', 'number');
         size.setAttribute('placeholder', '14')
-        container.classList.contains('deal-one') ? size.id = `deal-one-price-${i + 1}` : size.id = `deal-two-price-${i + 1}`;
-        container.classList.contains('deal-one') ? size.classList.add('deal-one-price') : size.classList.add('deal-two-price');
+        container.classList.contains('deal-one') ? size.id = `deal-one-size-${i + 1}` : size.id = `deal-two-size-${i + 1}`;
+        container.classList.contains('deal-one') ? size.classList.add('deal-one-size') : size.classList.add('deal-two-size');
         const label = document.createElement('label');
         label.setAttribute('for', `${size.id}`);
         label.textContent = `Pizza ${i + 1}: `;
@@ -104,8 +104,8 @@ function findBetterDeal() {
     const resultContainer = document.querySelector('.result-container');
     resultContainer.style.whiteSpace = 'pre';
     try {
-        const dealOne = calculateDeal(document.querySelectorAll('.deal-one-price'), document.querySelector('#deal-one-price'));
-        const dealTwo = calculateDeal(document.querySelectorAll('.deal-two-price'), document.querySelector('#deal-two-price'));
+        const dealOne = calculateDeal(document.querySelectorAll('.deal-one-size'), document.querySelector('#deal-one-price'));
+        const dealTwo = calculateDeal(document.querySelectorAll('.deal-two-size'), document.querySelector('#deal-two-price'));
         if(isNaN(dealOne) || isNaN(dealTwo) || dealOne === Infinity || dealTwo === Infinity) throw new Error('NaN Error');
         if (dealOne > dealTwo) {
             displayResult(1, dealOne, dealTwo);
