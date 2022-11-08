@@ -408,7 +408,7 @@ body {
     row-gap: 15px;
     border: none;
     border-radius: 10px;
-    background-color: rgba(103, 101, 252, 0.171);
+    background-color: rgb(12 67 133 / 40%);
     padding: 15px;
 }
 .deal-one, .deal-two{
@@ -419,6 +419,7 @@ h1{
     font-weight: 500;
     margin: 0px;
     text-align: center;
+    color: rgb(238, 238, 238);
 
 }
 h2, h3{
@@ -443,7 +444,8 @@ h4{
     width: 100%;
     text-align: center;
     padding-bottom: 10px;
-    border-bottom: thin solid gray;
+    color: rgb(238, 238, 238);
+    border-bottom: thin solid;
 }
 .deal-one-pizza-amount{
     display: flex;
@@ -482,7 +484,7 @@ transition: all 200ms ease-in-out;
     align-self: center;
     width: fit-content;
     row-gap: 5px;
-    background-color: rgb(221, 0, 0, 36%);
+    background-color:  rgb(199 18 18 / 66%);
     border-radius: 5px;
     padding: 15px;
     letter-spacing: 1px;

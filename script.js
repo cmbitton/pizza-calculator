@@ -69,6 +69,31 @@ function calculateDeal(deal, price) {
     return dealPizzaPerInch
 }
 
+function displayResult(deal, firstDeal, secondDeal){
+    const info = document.createElement('div');
+    const resultContainer = document.querySelector('.result-container');
+    resultContainer.textContent = `Deal ${deal} is Better!`;
+    info.innerHTML = `Deal 1: <span class='deal-one-res'>${firstDeal.toFixed(2)}</span> inch<sup>2</sup> of pizza per dollar
+Deal 2: <span class='deal-two-res'>${secondDeal.toFixed(2)}</span> inch<sup>2</sup> of pizza per dollar`;
+    resultContainer.append(info);
+    if(deal === 1){
+    document.querySelector('.deal-two-res').style = 'color: red; font-weight: 400;';
+    document.querySelector('.deal-one-res').style = 'color: green; font-weight: 400;';
+    }
+    else if (deal === 2){
+        document.querySelector('.deal-two-res').style = 'color: green; font-weight: 400;';
+        document.querySelector('.deal-one-res').style = 'color: red; font-weight: 400;';
+    }
+    else if(deal === 0){
+        resultContainer.textContent = 'The Deals Are Exactly The Same!';
+        info.innerHTML = `Deal 1: <span class='deal-one-res'>${firstDeal.toFixed(2)}</span> inch<sup>2</sup> of pizza per dollar
+Deal 2: <span class='deal-two-res'>${secondDeal.toFixed(2)}</span> inch<sup>2</sup> of pizza per dollar`;
+        resultContainer.append(info);
+        document.querySelector('.deal-two-res').style = 'color: green; font-weight: 400;';
+        document.querySelector('.deal-one-res').style = 'color: green; font-weight: 400;';
+    }
+}
+
 function findBetterDeal() {
     const container = document.querySelector('.container');
     if (!document.querySelector('.result-container')) {
@@ -81,33 +106,19 @@ function findBetterDeal() {
     try {
         const dealOne = calculateDeal(document.querySelectorAll('.deal-one-price'), document.querySelector('#deal-one-price'));
         const dealTwo = calculateDeal(document.querySelectorAll('.deal-two-price'), document.querySelector('#deal-two-price'));
-        const info = document.createElement('div');
+        if(isNaN(dealOne) || isNaN(dealTwo) || dealOne === Infinity || dealTwo === Infinity) throw new Error('NaN Error');
         if (dealOne > dealTwo) {
-            resultContainer.textContent = 'Deal 1 is Better!';
-            info.innerHTML = `Deal 1: <span class='dealOneRes'>${dealOne.toFixed(2)}</span> inch<sup>2</sup> of pizza per dollar
-Deal 2: <span class='dealTwoRes'>${dealTwo.toFixed(2)}</span> inch<sup>2</sup> of pizza per dollar`;
-            resultContainer.append(info);
-            document.querySelector('.dealTwoRes').style = 'color: red; font-weight: 400;';
-            document.querySelector('.dealOneRes').style = 'color: green; font-weight: 400;';
+            displayResult(1, dealOne, dealTwo);
         }
         else if (dealTwo > dealOne) {
-            resultContainer.textContent = 'Deal 2 is Better!';
-            info.innerHTML = `Deal 1: <span class='dealOneRes'>${dealOne.toFixed(2)}</span> inch<sup>2</sup> of pizza per dollar
-Deal 2: <span class='dealTwoRes'>${dealTwo.toFixed(2)}</span> inch<sup>2</sup> of pizza per dollar`;
-            resultContainer.append(info);
-            document.querySelector('.dealTwoRes').style = 'color: green; font-weight: 400;';
-            document.querySelector('.dealOneRes').style = 'color: red; font-weight: 400;';
+            displayResult(2, dealOne, dealTwo);
         }
         else {
-            resultContainer.textContent = 'The Deals Are Exactly The Same!';
-            info.innerHTML = `Deal 1: <span class='dealOneRes'>${dealOne.toFixed(2)}</span> inch<sup>2</sup> of pizza per dollar
-Deal 2: <span class='dealTwoRes'>${dealTwo.toFixed(2)}</span> inch<sup>2</sup> of pizza per dollar`;
-                        resultContainer.append(info);
-                        document.querySelector('.dealTwoRes').style = 'color: green; font-weight: 400;';
-                        document.querySelector('.dealOneRes').style = 'color: green; font-weight: 400;';
+            displayResult(0, dealOne, dealTwo);
         }
     }
     catch (error) {
+        console.log(error);
         resultContainer.style.whiteSpace = 'inherit';
         resultContainer.textContent = `ERROR: Both Pizza Deals Must Be Filled Out Correctly`;
     }
