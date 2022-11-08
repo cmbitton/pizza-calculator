@@ -380,7 +380,7 @@ template {
 
 
 body {
-    background-color: rgb(38, 36, 80);
+    background-color: rgb(19, 19, 19);
     min-height: 100vh;
     width: 100%;
     display: flex;
