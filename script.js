@@ -5,6 +5,7 @@ function addSelectedClass() {
             removeSelectedClass();
             e.target.classList.add('selected');
             createPizzaDeal(e);
+            changePizzaSize();
         })
     }
 }
@@ -15,10 +16,61 @@ function removeSelectedClass() {
         if (amount.classList.contains('selected')) amount.classList.remove('selected');
     }
 }
-
-
+function changePizzaSize(){
+const sizeButtons = document.querySelectorAll('input[type="radio"]');
+for(const size of sizeButtons){
+    size.addEventListener('change', (e) => {
+        console.log(size)
+        changePizzaSizeInput(e);
+    })
+}
+}
+function changePizzaSizeInput(e){
+    const container = e.target.closest('.containers > div');
+    console.log(container)
+    const pizzaContainer = e.target.closest('div.pizza-container');
+    console.log(pizzaContainer)
+    if(!pizzaContainer.querySelector('.size-container')){
+    const sizeContainer = document.createElement('div');
+    sizeContainer.classList.add('size-container');
+    }
+    if(e.target.value === 'circle'){
+    const sizeContainer = pizzaContainer.querySelector('.size-container');
+    sizeContainer.textContent = '';
+    const sizeLabel = document.createElement('label');
+    sizeLabel.textContent = 'Size(in)'
+    const size = document.createElement('input');
+    size.setAttribute('type', 'number');
+    size.setAttribute('placeholder', '14');
+    container.classList.contains('deal-one') ? size.id = `deal-one-size` : size.id = `deal-two-size`;
+    container.classList.contains('deal-one') ? size.classList.add('deal-one-size') : size.classList.add('deal-two-size');
+    sizeContainer.append(sizeLabel);
+    sizeContainer.append(size);
+    pizzaContainer.append(sizeContainer);
+    }
+    else if(e.target.value === 'square'){
+        const sizeContainer = pizzaContainer.querySelector('.size-container');
+        sizeContainer.textContent = '';
+        const sizeLabel = document.createElement('label');
+        sizeLabel.textContent = 'Size(in)'
+        const pizzaWidth = document.createElement('input');
+        const pizzaHeight = document.createElement('input');
+        pizzaWidth.setAttribute('type', 'number');
+        pizzaWidth.setAttribute('placeholder', '14');
+        pizzaHeight.setAttribute('type', 'number');
+        pizzaHeight.setAttribute('placeholder', '14');
+        container.classList.contains('deal-one') ? pizzaWidth.id = `deal-one-size` : pizzaWidth.id = `deal-two-size`;
+        pizzaWidth.classList.add('size-width')
+        container.classList.contains('deal-one') ? pizzaHeight.id = `deal-one-size` : pizzaHeight.id = `deal-two-size`;
+        pizzaHeight.classList.add('size-height');
+        sizeContainer.append(sizeLabel);
+        sizeContainer.append(pizzaWidth);
+        sizeContainer.append(pizzaHeight)
+        pizzaContainer.append(sizeContainer);
+    }
+}
 function createPizzaDeal(event) {
-    const pizzaAmount = +event.target.classList[1];
+    const pizzaAmount = +event.target.classList[2];
     const container = event.target.closest('.containers > div');
     const dealContainer = container.querySelector('div:last-of-type');
     dealContainer.classList.add('deal-styled');
@@ -29,17 +81,50 @@ function createPizzaDeal(event) {
     container.append(dealContainer);
     for (let i = 0; i < pizzaAmount; i++) {
         const pizzaContainer = document.createElement('div');
-        dealContainer.append(pizzaContainer)
+        pizzaContainer.classList.add('pizza-container')
+        dealContainer.append(pizzaContainer);
+        const squareContainer = document.createElement('div');
+        squareContainer.classList.add('square-container');
+        const square = document.createElement('input');
+        square.setAttribute('type', 'radio');
+        square.setAttribute('value', 'square');
+        console.log(container);
+        container.classList.contains('deal-one') ? square.setAttribute('name', `deal-1-shape${i + 1}`) : square.setAttribute('name', `deal-2-shape${i + 1}`) ;
+        square.value = 'square';
+        const squareLabel = document.createElement('label');
+        squareLabel.classList.add('material-symbols-outlined');
+        squareLabel.textContent = 'crop_7_5';
+        const circleContainer = document.createElement('div');
+        circleContainer.classList.add('circle-container');
+        const circle = document.createElement('input');
+        circle.setAttribute('type', 'radio');
+        circle.setAttribute('checked', 'true')
+        circle.setAttribute('value', 'circle');
+        container.classList.contains('deal-one') ? circle.setAttribute('name', `deal-1-shape${i + 1}`) : circle.setAttribute('name', `deal-2-shape${i + 1}`) ;
+        const circleLabel = document.createElement('label');
+        circleLabel.classList.add('material-symbols-outlined');
+        circleLabel.textContent = 'circle';
+        squareContainer.append(squareLabel);
+        squareContainer.append(square);
+        circleContainer.append(circleLabel);
+        circleContainer.append(circle);
+        const label = document.createElement('label');
+        label.textContent = `Pizza ${i + 1}: `;
+        pizzaContainer.append(label);
+        pizzaContainer.append(circleContainer)
+        pizzaContainer.append(squareContainer);
+        const sizeContainer = document.createElement('div');
+        sizeContainer.classList.add('size-container');
+        const sizeLabel = document.createElement('label');
+        sizeLabel.textContent = 'Size(in)'
         const size = document.createElement('input');
         size.setAttribute('type', 'number');
-        size.setAttribute('placeholder', '14')
+        size.setAttribute('placeholder', '14');
         container.classList.contains('deal-one') ? size.id = `deal-one-size-${i + 1}` : size.id = `deal-two-size-${i + 1}`;
         container.classList.contains('deal-one') ? size.classList.add('deal-one-size') : size.classList.add('deal-two-size');
-        const label = document.createElement('label');
-        label.setAttribute('for', `${size.id}`);
-        label.textContent = `Pizza ${i + 1}: `;
-        pizzaContainer.append(label)
-        pizzaContainer.append(size);
+        sizeContainer.append(sizeLabel)
+        sizeContainer.append(size);
+        pizzaContainer.append(sizeContainer);
     }
 
     const priceHeading = document.createElement('h4');
@@ -59,13 +144,20 @@ function createPizzaDeal(event) {
     priceContainer.append(dealPrice);
 }
 
-function calculateDeal(deal, price) {
-    const dealSizes = [...deal];
-    console.log(dealSizes)
-    const sumDeal = dealSizes.reduce((sum, current) => {
+function calculateDeal(deal, price, number) {
+    const dealSizesRound = [...deal];
+    console.log(dealSizesRound)
+    const sumDeal = dealSizesRound.reduce((sum, current) => {
         return sum += (Math.PI * ((current.value / 2) ** 2))
     }, 0)
-    const dealPizzaPerInch = (sumDeal / price.value)
+    const pizzas = [...number.querySelectorAll('.pizza-container')];
+    let sumSquares = 0;
+    for(const pizza of pizzas){
+        if(pizza.querySelector('input[value="square"]').checked){
+        sumSquares += (+pizza.querySelector('input.size-width').value * pizza.querySelector('input.size-height').value)
+        }
+    }
+    const dealPizzaPerInch = ((sumDeal + sumSquares) / price.value)
     return dealPizzaPerInch
 }
 
@@ -104,8 +196,8 @@ function findBetterDeal() {
     const resultContainer = document.querySelector('.result-container');
     resultContainer.style.whiteSpace = 'pre';
     try {
-        const dealOne = calculateDeal(document.querySelectorAll('.deal-one-size'), document.querySelector('#deal-one-price'));
-        const dealTwo = calculateDeal(document.querySelectorAll('.deal-two-size'), document.querySelector('#deal-two-price'));
+        const dealOne = calculateDeal(document.querySelectorAll('.deal-one-size'), document.querySelector('#deal-one-price'), document.querySelector('.deal-one-container'));
+        const dealTwo = calculateDeal(document.querySelectorAll('.deal-two-size'), document.querySelector('#deal-two-price'), document.querySelector('.deal-two-container'));
         if(isNaN(dealOne) || isNaN(dealTwo) || dealOne === Infinity || dealTwo === Infinity) throw new Error('NaN Error');
         if (dealOne > dealTwo) {
             displayResult(1, dealOne, dealTwo);
