@@ -63,25 +63,26 @@ function calculateDeal(deal, price) {
     const dealSizes = [...deal];
     console.log(dealSizes)
     const sumDeal = dealSizes.reduce((sum, current) => {
-       return sum += (Math.PI * ((current.value / 2) ** 2))
+        return sum += (Math.PI * ((current.value / 2) ** 2))
     }, 0)
-    const dealPizzaPerInch = (sumDeal / price.value) 
+    const dealPizzaPerInch = (sumDeal / price.value)
     return dealPizzaPerInch
 }
 
-function findBetterDeal(){
+function findBetterDeal() {
     const container = document.querySelector('.container');
-    if(!document.querySelector('.result-container')){
-    const resultContainer = document.createElement('div');
-    resultContainer.classList.add('result-container');
-    container.append(resultContainer);
+    if (!document.querySelector('.result-container')) {
+        const resultContainer = document.createElement('div');
+        resultContainer.classList.add('result-container');
+        container.append(resultContainer);
     }
     const resultContainer = document.querySelector('.result-container');
+    resultContainer.style.whiteSpace = 'pre';
     try {
         const dealOne = calculateDeal(document.querySelectorAll('.deal-one-price'), document.querySelector('#deal-one-price'));
         const dealTwo = calculateDeal(document.querySelectorAll('.deal-two-price'), document.querySelector('#deal-two-price'));
         const info = document.createElement('div');
-        if(dealOne > dealTwo){
+        if (dealOne > dealTwo) {
             resultContainer.textContent = 'Deal 1 is Better!';
             info.innerHTML = `Deal 1: <span class='dealOneRes'>${dealOne.toFixed(2)}</span> inch<sup>2</sup> of pizza per dollar
 Deal 2: <span class='dealTwoRes'>${dealTwo.toFixed(2)}</span> inch<sup>2</sup> of pizza per dollar`;
@@ -89,19 +90,26 @@ Deal 2: <span class='dealTwoRes'>${dealTwo.toFixed(2)}</span> inch<sup>2</sup> o
             document.querySelector('.dealTwoRes').style = 'color: red; font-weight: 400;';
             document.querySelector('.dealOneRes').style = 'color: green; font-weight: 400;';
         }
-        else{
+        else if (dealTwo > dealOne) {
             resultContainer.textContent = 'Deal 2 is Better!';
             info.innerHTML = `Deal 1: <span class='dealOneRes'>${dealOne.toFixed(2)}</span> inch<sup>2</sup> of pizza per dollar
 Deal 2: <span class='dealTwoRes'>${dealTwo.toFixed(2)}</span> inch<sup>2</sup> of pizza per dollar`;
             resultContainer.append(info);
             document.querySelector('.dealTwoRes').style = 'color: green; font-weight: 400;';
             document.querySelector('.dealOneRes').style = 'color: red; font-weight: 400;';
-            
         }
-
-    } catch (error) {
-        resultContainer.textContent = `ERROR
-Both Pizza Deals Must Be Filled Out Correctly`;
+        else {
+            resultContainer.textContent = 'The Deals Are Exactly The Same!';
+            info.innerHTML = `Deal 1: <span class='dealOneRes'>${dealOne.toFixed(2)}</span> inch<sup>2</sup> of pizza per dollar
+Deal 2: <span class='dealTwoRes'>${dealTwo.toFixed(2)}</span> inch<sup>2</sup> of pizza per dollar`;
+                        resultContainer.append(info);
+                        document.querySelector('.dealTwoRes').style = 'color: green; font-weight: 400;';
+                        document.querySelector('.dealOneRes').style = 'color: green; font-weight: 400;';
+        }
+    }
+    catch (error) {
+        resultContainer.style.whiteSpace = 'inherit';
+        resultContainer.textContent = `ERROR: Both Pizza Deals Must Be Filled Out Correctly`;
     }
 }
 addSelectedClass();

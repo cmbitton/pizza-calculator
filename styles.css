@@ -423,7 +423,6 @@ h1{
 }
 h2, h3{
     color: rgb(238, 238, 238);
-    background-color: rgb(42, 94, 8);
     padding: 5px 10px;
     margin: 0px;
     border-radius: 5px;
@@ -433,7 +432,8 @@ h2, h3{
 
 }
 h3{
-    background-color: rgba(148, 11, 11, 0.815);
+    align-self: center;
+
 }
 h4{
     letter-spacing: 2px;
@@ -482,7 +482,7 @@ transition: all 200ms ease-in-out;
     align-self: center;
     width: fit-content;
     row-gap: 5px;
-    background-color: rgb(51, 51, 51);
+    background-color: rgb(221, 0, 0, 36%);
     border-radius: 5px;
     padding: 15px;
     letter-spacing: 1px;
