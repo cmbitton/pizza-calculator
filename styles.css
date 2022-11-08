@@ -431,7 +431,6 @@ h2, h3{
     color: rgb(238, 238, 238);
     padding: 5px 10px;
     margin: 0px;
-    border-radius: 5px;
     width: fit-content;
     letter-spacing: 1px;
     font-weight: 400;
@@ -487,10 +486,10 @@ transition: all 200ms ease-in-out;
     flex-direction: column;
     align-items:center;
     align-self: center;
-    width: 100%;
+    width: 90%;
     row-gap: 15px;
     background-color:  rgb(199 18 18 / 66%);
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 15px;
     letter-spacing: 1px;
 }
@@ -554,6 +553,7 @@ input[type=radio]{
 }
 label {
     display: inline-block;
+    text-align: center;
     width: 75px;
     font-weight: 300;
     letter-spacing: 2px;

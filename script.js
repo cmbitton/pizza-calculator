@@ -2,7 +2,7 @@ function addSelectedClass() {
     const selectionAmountDeal1 = document.querySelectorAll('.material-symbols-outlined');
     for (const amount of selectionAmountDeal1) {
         amount.addEventListener('click', (e) => {
-            removeSelectedClass();
+            removeSelectedClass(e);
             e.target.classList.add('selected');
             createPizzaDeal(e);
             changePizzaSize();
@@ -10,8 +10,8 @@ function addSelectedClass() {
     }
 }
 
-function removeSelectedClass() {
-    const selectionAmountDeal1 = document.querySelectorAll('.material-symbols-outlined');
+function removeSelectedClass(e) {
+    const selectionAmountDeal1 = e.target.parentNode.children;
     for (const amount of selectionAmountDeal1) {
         if (amount.classList.contains('selected')) amount.classList.remove('selected');
     }
@@ -76,7 +76,7 @@ function createPizzaDeal(event) {
     dealContainer.classList.add('deal-styled');
     dealContainer.textContent = '';
     const title = document.createElement('h4');
-    title.textContent = 'Pizza Sizes (inches)';
+    title.textContent = 'Pizza Shape and Size';
     dealContainer.append(title);
     container.append(dealContainer);
     for (let i = 0; i < pizzaAmount; i++) {
@@ -128,7 +128,7 @@ function createPizzaDeal(event) {
     }
 
     const priceHeading = document.createElement('h4');
-    priceHeading.textContent = 'Deal Price (dollars)';
+    priceHeading.textContent = 'Deal Price';
     dealContainer.append(priceHeading)
     const priceContainer = document.createElement('div');
     dealContainer.append(priceContainer);
@@ -139,7 +139,10 @@ function createPizzaDeal(event) {
     container.classList.contains('deal-one') ? dealPrice.id = 'deal-one-price' : dealPrice.id = 'deal-two-price';
     const dealLabel = document.createElement('label');
     dealLabel.setAttribute('for', `${dealPrice.id}`);
-    dealLabel.textContent = `Price`;
+    dealLabel.textContent = `$`;
+    dealLabel.style.fontSize = '24px';
+    dealLabel.style.width = 'fit-content'
+    dealLabel.style.marginRight = '5px'
     priceContainer.append(dealLabel);
     priceContainer.append(dealPrice);
 }
