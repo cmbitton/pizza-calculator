@@ -201,7 +201,7 @@ function findBetterDeal() {
     try {
         const dealOne = calculateDeal(document.querySelectorAll('.deal-one-size'), document.querySelector('#deal-one-price'), document.querySelector('.deal-one-container'));
         const dealTwo = calculateDeal(document.querySelectorAll('.deal-two-size'), document.querySelector('#deal-two-price'), document.querySelector('.deal-two-container'));
-        if(isNaN(dealOne) || isNaN(dealTwo) || dealOne === Infinity || dealTwo === Infinity) throw new Error('NaN Error');
+        if(isNaN(dealOne) || isNaN(dealTwo) || dealOne === Infinity || dealTwo === Infinity || dealOne === 0 || dealTwo === 0) throw new Error('NaN Error');
         if (dealOne > dealTwo) {
             displayResult(1, dealOne, dealTwo);
         }
